@@ -6,8 +6,6 @@ class DataFile {
 
   DataFile();
 
-  Directory? get getDirectory => _selectedDirectory;
-
   void selectDirectory(String? path) {
     if (path == null) {
       _selectedDirectoryPath = null;
@@ -18,4 +16,7 @@ class DataFile {
     _selectedDirectoryPath = path;
     _selectedDirectory = Directory(path);
   }
+
+  String? get selectedDirectoryPath => _selectedDirectoryPath;
+  Directory? get selectedDirectory => _selectedDirectory;
 }

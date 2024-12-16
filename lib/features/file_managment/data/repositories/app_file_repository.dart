@@ -8,7 +8,6 @@ class AppFileRepository implements FileRepository {
 
   @override
   Future<String> getFile(String path) {
-    // TODO: implement getFile
     throw UnimplementedError();
   }
 
@@ -19,7 +18,7 @@ class AppFileRepository implements FileRepository {
 
   @override
   Future<List<FileSystemEntity>> getFiles() async {
-    final directory = dataFile.getDirectory;
+    final directory = dataFile.selectedDirectory;
     if (directory == null) {
       return [];
     }
