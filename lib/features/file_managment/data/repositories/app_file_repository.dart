@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_localization_app/features/file_managment/data/datasources/data_file.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 
-class AppFileRepository implements FileRepository {
+class FileRepositoryImp implements FileRepository {
   final DataFile dataFile = DataFile();
 
   @override

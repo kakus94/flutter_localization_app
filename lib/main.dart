@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final cubit = SelectFolderCubit(AppFileRepository());
+final cubit = SelectFolderCubit(FileRepositoryImp());
 
 class TestView extends StatelessWidget {
   const TestView({super.key});
