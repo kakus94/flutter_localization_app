@@ -1,3 +1,4 @@
+import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart'
     as repo;
 import 'package:flutter_localization_app/features/file_managment/domain/usecases/get_folder.dart'
@@ -21,12 +22,14 @@ void main() {
 
   test("should return file content when repository call is successful",
       () async {
+    final expectResult = RightApp<String>('final answer');
+
     //arrange
     when(fileRepository.getFile('any'))
-        .thenAnswer((realInvocation) async => 'final answer');
+        .thenAnswer((realInvocation) async => expectResult);
     //act
     final result = await getFolder.call('any');
     //assert
-    expect(result, 'final answer');
+    expect(result, expectResult);
   });
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/usecases/get_folder.dart';
@@ -15,13 +16,14 @@ void main() {
 
   test('should return file content when repository call is successful',
       () async {
+    final expectResult = RightApp<String>('final answer');
     // arrange
     when(mockFileRepository.getFile('any'))
-        .thenAnswer((_) async => 'file content');
+        .thenAnswer((_) async => expectResult);
     // act
     final result = await getFolder.call('any');
     // assert
-    expect(result, 'file content');
+    expect(result, expectResult);
   });
 
   test('should throw an exception when repository call fails', () async {

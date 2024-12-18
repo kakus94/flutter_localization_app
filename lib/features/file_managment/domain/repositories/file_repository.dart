@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter_localization_app/core/type/typedef.dart';
+
 abstract class FileRepository {
-  Future<String> getFile(String path);
-  Future<void> selectFolder(String? path);
-  Future<List<FileSystemEntity>> getFiles();
+  FutureApp<String> getFile(String path);
+  FutureApp<void> selectFolder(String? path);
+  FutureApp<List<FileSystemEntity>> getFiles();
 }

@@ -1,10 +1,12 @@
+import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 import 'package:flutter_localization_app/features/localization_managment/data/repositories/repository_imp.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../domain/usecase/get_folder_test.mocks.dart';
+import '../../../../utils/utils.dart';
+import '../../../file_managment/domain/usecase/get_folder_test.mocks.dart';
 
 @GenerateMocks([FileRepository])
 void main() async {
@@ -19,12 +21,20 @@ void main() async {
     });
 
     test('should return list of files', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      final content = await Utils.readAsset(Lang.pl);
+      final expectResult = RightApp(content);
+
       //arrange
-      when(repository.getFiles()).thenAnswer((_) async => []);
+      when(repository.getFiles()).thenAnswer((_) async => Utils.getFiles());
       //act
-      final result = await repositoryImp.getMapLocalizationByLang('any');
+      final result = await repositoryImp.getMapLocalizationByLang('pl');
       //assert
-      expect(result, []);
+      expect(result.isRight(), expectResult.isRight());
+      expect(
+        result.getOrElse(() => {}),
+        equals(expectResult.getOrElse(() => {})),
+      );
     });
 
     test('should throw an exception when repository throws an exception',

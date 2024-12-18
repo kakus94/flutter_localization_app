@@ -1,3 +1,5 @@
+import 'package:flutter_localization_app/core/type/typedef.dart';
+
 import '../repositories/file_repository.dart';
 
 class GetFolder {
@@ -5,7 +7,7 @@ class GetFolder {
 
   GetFolder(this.repository);
 
-  Future<String> call(String path) {
+  FutureApp<String> call(String path) {
     return repository.getFile(path);
   }
 }

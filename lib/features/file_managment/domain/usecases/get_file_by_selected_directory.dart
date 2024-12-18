@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 
 class GetFileBySelectedDirectory {
@@ -7,7 +8,7 @@ class GetFileBySelectedDirectory {
 
   GetFileBySelectedDirectory(this.repository);
 
-  Future<List<FileSystemEntity>> call() {
+  FutureApp<List<FileSystemEntity>> call() {
     return repository.getFiles();
   }
 }

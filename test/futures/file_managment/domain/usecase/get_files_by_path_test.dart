@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/usecases/get_file_by_path.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -18,7 +19,7 @@ void main() {
   test('should return a list of files when repository returns a list of files',
       () async {
     // arrange
-    final files = [File('file1.txt'), File('file2.txt')];
+    final files = RightApp([File('file1.txt'), File('file2.txt')]);
     when(repository.getFiles()).thenAnswer((_) async => files);
 
     // act
@@ -39,13 +40,14 @@ void main() {
 
   test('should return an empty list when repository returns an empty list',
       () async {
+    final expectResult = RightApp<List<File>>([]);
     // arrange
-    when(repository.getFiles()).thenAnswer((_) async => []);
+    when(repository.getFiles()).thenAnswer((_) async => expectResult);
 
     // act
     final result = await getFileByPath.call('any');
 
     // assert
-    expect(result, []);
+    expect(result, expectResult);
   });
 }

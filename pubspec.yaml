@@ -35,5 +35,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  
+  assets:
+    - test/resources/localization/localization_pl.arb
+    - test/resources/localization/localization_en.arb
+    - test/resources/localization/localization_it.arb
 

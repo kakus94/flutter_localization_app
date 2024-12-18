@@ -1,0 +1,13 @@
+{
+    "@@locale": "en",
+    "home": "Home",
+    "@home": {},
+    "profile": "Profile",
+    "@profile": {},
+    "settings": "Settings",
+    "@settings": {},
+    "language": "Language",
+    "@language": {},
+    "english": "English",
+    "@english": {}
+}

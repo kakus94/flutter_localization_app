@@ -27,10 +27,14 @@ class SelectFolderCubit extends Cubit<SelectFolderState> {
   Future<void> getFiles() async {
     final files = await fileRepository.getFiles();
 
-    if (files.isEmpty) {
-      emit(state.copyWith(files: []));
-    }
-    emit(state.copyWith(files: files.toList()));
+    files.fold((failuer) {
+      print('Error: $failuer');
+    }, (files) {
+      if (files.isEmpty) {
+        emit(state.copyWith(files: []));
+      }
+      emit(state.copyWith(files: files.toList()));
+    });
   }
 
   void reset() {}
