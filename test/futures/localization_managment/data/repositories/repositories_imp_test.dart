@@ -1,3 +1,4 @@
+import 'package:flutter_localization_app/core/error/failures_imp.dart';
 import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 import 'package:flutter_localization_app/features/localization_managment/data/repositories/repository_imp.dart';
@@ -40,7 +41,8 @@ void main() async {
     test('should throw an exception when repository throws an exception',
         () async {
       // arrange
-      when(repository.getFiles()).thenThrow(Exception());
+      when(repository.getFiles())
+          .thenAnswer((_) async => LeftApp(FileNotFoundFailure()));
       // act
       final result = await repositoryImp.getMapLocalizationByLang('pl');
       // assert

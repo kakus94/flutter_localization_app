@@ -28,7 +28,7 @@ void main() {
     when(fileRepository.getFile('any'))
         .thenAnswer((realInvocation) async => expectResult);
     //act
-    final result = await getFolder.call('any');
+    final result = await getFolder(usecase.Params(path: 'any'));
     //assert
     expect(result, expectResult);
   });

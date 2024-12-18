@@ -23,7 +23,7 @@ void main() {
     when(repository.getFiles()).thenAnswer((_) async => files);
 
     // act
-    final result = await getFileByPath.call('any');
+    final result = await getFileByPath(NoParams());
 
     // assert
     expect(result, files);
@@ -35,7 +35,7 @@ void main() {
     when(repository.getFiles()).thenThrow(Exception());
 
     // act and assert
-    expect(() async => await getFileByPath.call('any'), throwsException);
+    expect(() async => await getFileByPath(NoParams()), throwsException);
   });
 
   test('should return an empty list when repository returns an empty list',
@@ -45,7 +45,7 @@ void main() {
     when(repository.getFiles()).thenAnswer((_) async => expectResult);
 
     // act
-    final result = await getFileByPath.call('any');
+    final result = await getFileByPath(NoParams());
 
     // assert
     expect(result, expectResult);

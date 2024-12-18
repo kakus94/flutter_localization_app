@@ -21,7 +21,7 @@ void main() {
     when(mockFileRepository.getFile('any'))
         .thenAnswer((_) async => expectResult);
     // act
-    final result = await getFolder.call('any');
+    final result = await getFolder(Params(path: 'any'));
     // assert
     expect(result, expectResult);
   });
@@ -31,6 +31,6 @@ void main() {
     when(mockFileRepository.getFile('any'))
         .thenThrow(Exception('Failed to get file'));
     // act and assert
-    expect(() async => await getFolder.call('any'), throwsException);
+    expect(() async => await getFolder(Params(path: 'any')), throwsException);
   });
 }
