@@ -38,9 +38,13 @@ void main() async {
     });
 
     test('should throw an exception when repository throws an exception',
-        () async {});
-
-    test('should return an empty list when repository returns an empty list',
-        () async {});
+        () async {
+      // arrange
+      when(repository.getFiles()).thenThrow(Exception());
+      // act
+      final result = await repositoryImp.getMapLocalizationByLang('pl');
+      // assert
+      expect(result.isLeft(), true);
+    });
   });
 }

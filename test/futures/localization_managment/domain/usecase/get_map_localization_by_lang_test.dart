@@ -26,7 +26,7 @@ void main() async {
       when(repository.getMapLocalizationByLang('any'))
           .thenAnswer((_) async => expectResult);
       //act
-      final result = await getMapLocalizationByLang.call('any');
+      final result = await getMapLocalizationByLang('any');
       //assert
       expect(result, expectResult);
     });
@@ -35,8 +35,8 @@ void main() async {
       //arrange
       when(repository.getMapLocalizationByLang('any')).thenThrow(Exception());
       //act and assert
-      expect(() async => await getMapLocalizationByLang.call('any'),
-          throwsException);
+      expect(
+          () async => await getMapLocalizationByLang('any'), throwsException);
     });
     test('should return an empty list when repository returns an empty list',
         () async {
@@ -45,7 +45,7 @@ void main() async {
       when(repository.getMapLocalizationByLang('any'))
           .thenAnswer((_) async => tValue);
       //act
-      final result = await getMapLocalizationByLang.call('any');
+      final result = await getMapLocalizationByLang('any');
       //assert
       expect(result, tValue);
     });
