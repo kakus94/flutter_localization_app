@@ -3,13 +3,11 @@ import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 import 'package:flutter_localization_app/features/localization_managment/data/repositories/repository_imp.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../../mock/mock.mocks.dart';
 import '../../../../utils/utils.dart';
-import '../../../file_managment/domain/usecase/get_folder_test.mocks.dart';
 
-@GenerateMocks([FileRepository])
 void main() async {
 //Test dla warstwy data dla repository file
   group('File Repository', () {

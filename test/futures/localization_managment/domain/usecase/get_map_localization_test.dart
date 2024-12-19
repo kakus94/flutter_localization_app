@@ -4,7 +4,7 @@ import 'package:flutter_localization_app/features/localization_managment/domain/
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'get_map_localization_by_lang_test.mocks.dart';
+import '../../../../mock/mock.mocks.dart';
 
 void main() async {
 //testowanie get_map_localization

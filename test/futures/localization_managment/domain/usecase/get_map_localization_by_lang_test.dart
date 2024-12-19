@@ -2,12 +2,10 @@ import 'package:flutter_localization_app/core/type/typedef.dart';
 import 'package:flutter_localization_app/features/localization_managment/domain/repositories/localization_repository.dart';
 import 'package:flutter_localization_app/features/localization_managment/domain/usecases/get_map_localization_by_lang.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'get_map_localization_by_lang_test.mocks.dart';
+import '../../../../mock/mock.mocks.dart';
 
-@GenerateMocks([LocalizationRepository])
 void main() async {
   group('testing usecase get_map_localization_by_lang -', () {
     late LocalizationRepository repository;
