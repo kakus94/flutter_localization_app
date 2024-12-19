@@ -7,4 +7,5 @@ abstract class FileRepository {
   FutureApp<void> selectFolder(String? path);
   FutureApp<List<FileSystemEntity>> getFiles();
   FutureApp<void> createUpdateFile(String lang, String content);
+  FutureApp<void> deleteFile(String path);
 }

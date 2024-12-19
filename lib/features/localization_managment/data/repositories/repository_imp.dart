@@ -75,10 +75,8 @@ class RepositoryImp implements LocalizationRepository {
       {required List<LocalizationEntity> entities, required String lang}) {
     final models = entities as List<LocalizationModel>;
 
-    final jsonString = models
-        .map((e) => json.encode(e.convertToString()))
-        .toList()
-        .toOneJsonString();
+    final jsonString =
+        models.map((e) => e.convertToString()).toList().toOneJsonString();
 
     return fileRepository.createUpdateFile(lang, jsonString);
   }

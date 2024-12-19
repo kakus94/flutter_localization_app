@@ -37,13 +37,20 @@ class FileRepositoryImp implements FileRepository {
   @override
   FutureApp<void> createUpdateFile(String lang, String content) {
     final fileName = Utils.fileName(lang: lang);
-    final directory = dataFile.selectedDirectory;
+    final directory = dataFile.selectedDirectoryPath;
     final file = File('$directory/$fileName');
     if (!file.existsSync()) {
       file.createSync();
     }
     file.writeAsStringSync(content);
 
+    return Future.value(RightApp(null));
+  }
+
+  @override
+  FutureApp<void> deleteFile(String path) {
+    final file = File(path);
+    file.deleteSync();
     return Future.value(RightApp(null));
   }
 }

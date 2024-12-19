@@ -18,7 +18,7 @@ class Utils {
 
   static FutureApp<File> getFile(Lang lang) async {
     final file = File(lang.fileName());
-    file.writeAsString(lang.content());
+    file.writeAsStringSync(lang.content());
     return RightApp(file);
   }
 
