@@ -94,4 +94,30 @@ class MockFileRepository extends _i1.Mock implements _i3.FileRepository {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.FileSystemEntity>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> createUpdateFile(
+    String? lang,
+    String? content,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createUpdateFile,
+          [
+            lang,
+            content,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
+          this,
+          Invocation.method(
+            #createUpdateFile,
+            [
+              lang,
+              content,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
 }

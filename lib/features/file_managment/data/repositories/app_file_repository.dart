@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_localization_app/core/type/typedef.dart';
+import 'package:flutter_localization_app/core/utils/utils.dart';
 import 'package:flutter_localization_app/features/file_managment/data/datasources/data_file.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 
@@ -31,5 +32,18 @@ class FileRepositoryImp implements FileRepository {
         .toList();
 
     return RightApp(result);
+  }
+
+  @override
+  FutureApp<void> createUpdateFile(String lang, String content) {
+    final fileName = Utils.fileName(lang: lang);
+    final directory = dataFile.selectedDirectory;
+    final file = File('$directory/$fileName');
+    if (!file.existsSync()) {
+      file.createSync();
+    }
+    file.writeAsStringSync(content);
+
+    return Future.value(RightApp(null));
   }
 }

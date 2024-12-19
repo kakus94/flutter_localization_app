@@ -8,6 +8,8 @@ import 'dart:io' as _i6;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:flutter_localization_app/core/error/failures.dart' as _i5;
+import 'package:flutter_localization_app/features/file_managment/domain/entities/localization.dart'
+    as _i8;
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart'
     as _i3;
 import 'package:flutter_localization_app/features/localization_managment/domain/repositories/localization_repository.dart'
@@ -96,6 +98,32 @@ class MockFileRepository extends _i1.Mock implements _i3.FileRepository {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.FileSystemEntity>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> createUpdateFile(
+    String? lang,
+    String? content,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createUpdateFile,
+          [
+            lang,
+            content,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
+          this,
+          Invocation.method(
+            #createUpdateFile,
+            [
+              lang,
+              content,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
 }
 
 /// A class which mocks [LocalizationRepository].
@@ -144,4 +172,32 @@ class MockLocalizationRepository extends _i1.Mock
             )),
           ) as _i4.Future<
               _i2.Either<_i5.Failure, Map<String, Map<String, dynamic>>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, void>> saveEntity({
+    required List<_i8.LocalizationEntity>? entities,
+    required String? lang,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveEntity,
+          [],
+          {
+            #entities: entities,
+            #lang: lang,
+          },
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
+            _FakeEither_0<_i5.Failure, void>(
+          this,
+          Invocation.method(
+            #saveEntity,
+            [],
+            {
+              #entities: entities,
+              #lang: lang,
+            },
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
 }

@@ -1,11 +1,13 @@
 import 'dart:convert';
-
-import 'package:flutter_localization_app/core/error/failures.dart';
-import 'package:flutter_localization_app/core/error/failures_imp.dart';
-import 'package:flutter_localization_app/core/type/typedef.dart';
-import 'package:flutter_localization_app/core/utils/utils.dart';
-import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
-import 'package:flutter_localization_app/features/localization_managment/domain/repositories/localization_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/error/failures_imp.dart';
+import '../../../../core/extension/list_to_one_json_convert.dart';
+import '../../../../core/type/typedef.dart';
+import '../../../../core/utils/utils.dart';
+import '../../../file_managment/data/models/localization_model.dart';
+import '../../../file_managment/domain/entities/localization.dart';
+import '../../../file_managment/domain/repositories/file_repository.dart';
+import '../../domain/repositories/localization_repository.dart';
 import 'dart:io';
 
 class RepositoryImp implements LocalizationRepository {
@@ -66,5 +68,18 @@ class RepositoryImp implements LocalizationRepository {
         }
       },
     ));
+  }
+
+  @override
+  FutureApp<void> saveEntity(
+      {required List<LocalizationEntity> entities, required String lang}) {
+    final models = entities as List<LocalizationModel>;
+
+    final jsonString = models
+        .map((e) => json.encode(e.convertToString()))
+        .toList()
+        .toOneJsonString();
+
+    return fileRepository.createUpdateFile(lang, jsonString);
   }
 }
