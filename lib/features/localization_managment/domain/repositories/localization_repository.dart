@@ -3,7 +3,7 @@ import 'package:flutter_localization_app/features/file_managment/domain/entities
 
 abstract class LocalizationRepository {
   FutureApp<Map<String, dynamic>> getMapLocalizationByLang(String lang);
-  FutureApp<Map<String, Map<String, dynamic>>> getMapLocalization();
+  FutureApp<Map<String, List<LocalizationEntity>>> getMapLocalization();
   FutureApp<void> saveEntity({
     required List<LocalizationEntity> entities,
     required String lang,

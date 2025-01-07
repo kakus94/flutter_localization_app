@@ -5,6 +5,8 @@ import 'package:flutter_localization_app/core/utils/utils.dart';
 import 'package:flutter_localization_app/features/file_managment/data/datasources/data_file.dart';
 import 'package:flutter_localization_app/features/file_managment/domain/repositories/file_repository.dart';
 
+import '../../../../core/error/failures_imp.dart';
+
 class FileRepositoryImp implements FileRepository {
   final DataFile dataFile = DataFile();
 
@@ -50,7 +52,10 @@ class FileRepositoryImp implements FileRepository {
   @override
   FutureApp<void> deleteFile(String path) {
     final file = File(path);
-    file.deleteSync();
-    return Future.value(RightApp(null));
+    if (file.existsSync()) {
+      file.deleteSync();
+      return Future.value(RightApp(null));
+    }
+    return Future.value(LeftApp(FileNotFoundFailure()));
   }
 }

@@ -16,8 +16,12 @@ class RepositoryImp implements LocalizationRepository {
   RepositoryImp({required this.fileRepository});
 
   @override
-  FutureApp<Map<String, Map<String, dynamic>>> getMapLocalization() {
-    throw UnimplementedError();
+  FutureApp<Map<String, List<LocalizationEntity>>> getMapLocalization() async {
+    final result = await fileRepository.getFiles();
+    return result.fold((failure) => LeftApp(failure), (files) async {
+      final map = await generateMapFromFiles(files);
+      return RightApp(map);
+    });
   }
 
   @override
@@ -79,5 +83,37 @@ class RepositoryImp implements LocalizationRepository {
         models.map((e) => e.convertToString()).toList().toOneJsonString();
 
     return fileRepository.createUpdateFile(lang, jsonString);
+  }
+
+  Future<Map<String, List<LocalizationEntity>>> generateMapFromFiles(
+      List<FileSystemEntity> files) async {
+    List<String> resultContent = [];
+
+    for (final file in files) {
+      final fstat = await file.stat();
+      if (fstat.type == FileSystemEntityType.file) {
+        final contents = await (file as File).readAsString();
+        resultContent.add(contents);
+      }
+    }
+
+    final models = resultContent
+        .map((e) => LocalizationModel.parseLocalizationEntities(e))
+        .toList();
+
+    final countFile = files.length;
+    final keysLengh = models.isNotEmpty ? models.first.length : 0;
+    Map<String, List<LocalizationEntity>> map = {};
+
+    for (var i = 0; i < keysLengh; i++) {
+      List<LocalizationEntity> modelsToMap = [];
+      for (var j = 0; j < countFile; j++) {
+        final model = models[j][i];
+        modelsToMap.add(model);
+      }
+      map[modelsToMap.first.keyValue] = modelsToMap;
+    }
+
+    return Future.value(map);
   }
 }
