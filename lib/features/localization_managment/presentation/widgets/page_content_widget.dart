@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localization_app/features/file_managment/data/models/localization_model.dart';
-import 'package:flutter_localization_app/features/file_managment/domain/entities/localization.dart';
 import 'package:flutter_localization_app/features/localization_managment/presentation/cubit/localization_managment_cubit.dart';
 
 class PageContentWidget extends StatelessWidget {
@@ -17,163 +15,171 @@ class PageContentWidget extends StatelessWidget {
       bloc: cubit,
       listener: (context, state) {},
       builder: (context, state) {
-        List<LocalizationEntity> models = state.content[state.activeKey] ?? [];
-        return Column(children: [
-          Row(
-            children: [
-              Text(
-                state.activeKey,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Spacer(),
-              TextButton(
-                  onPressed: () {
-                    cubit.save(models, state.activeKey);
-                  },
-                  child: Text('Save'))
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: models.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(children: [Text(cubit.state.langList[index])]),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PageEdit(
-                          entity: models[index],
-                          updateValue: () {},
-                        ),
-                        Builder(builder: (context) {
-                          final entity = models[index];
-                          LocalizationModel model = LocalizationModel(
-                            keyValue: entity.keyValue,
-                            value: entity.value,
-                            description: entity.description,
-                            placeholders: entity.placeholders,
-                          );
-                          return Text(
-                              model.convertToString().replaceAll(',', ',\n'));
-                        })
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.black,
-                    )
-                  ],
-                );
-              },
-            ),
-          ),
-        ]);
+        return Column(
+          children: [
+            FilledButton(onPressed: () {}, child: Text('DONE')),
+            ContentView(state: state, cubit: cubit),
+          ],
+        );
       },
     );
   }
-
-  Row rowValue(List<LocalizationEntity> models, int index) {
-    return Row(
-      children: [
-        SizedBox(width: 25),
-        Text("Value: "),
-        TextField(
-          onChanged: (c) => cubit.updateValue(c, index),
-          controller: TextEditingController(text: models[index].value),
-        ),
-        Text(
-          models[index].value,
-          style: TextStyle(),
-        ),
-      ],
-    );
-  }
-
-  Row rowDescription(List<LocalizationEntity> models, int index) {
-    return Row(
-      children: [
-        SizedBox(width: 25),
-        Text("Desc: "),
-        Text(
-          models[index].description,
-          style: TextStyle(),
-        ),
-      ],
-    );
-  }
-
-  Row placeholderWidget(List<LocalizationEntity> models, int index) {
-    return Row(
-      children: [
-        SizedBox(width: 25),
-        Text("Placeholder: "),
-        Text(
-          models[index].placeholders.toString(),
-          style: TextStyle(),
-        ),
-      ],
-    );
-  }
 }
 
-class PageEdit extends StatefulWidget {
-  PageEdit({super.key, required this.entity, required this.updateValue});
+class ContentView extends StatefulWidget {
+  ContentView({required this.state, required this.cubit});
 
-  LocalizationEntity entity;
-  final Function updateValue;
+  LocalizationManagmentState state;
+  final LocalizationManagmentCubit cubit;
 
   @override
-  State<PageEdit> createState() => __PageEditState();
+  State<ContentView> createState() => _ContentViewState();
 }
 
-class __PageEditState extends State<PageEdit> {
+class _ContentViewState extends State<ContentView> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController valueController =
-        TextEditingController(text: widget.entity.value);
-    TextEditingController descriptionController =
-        TextEditingController(text: widget.entity.description);
-    TextEditingController placeholdersController =
-        TextEditingController(text: widget.entity.placeholders.toString());
-    return SizedBox(
-      width: 300,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Column(mainAxisSize: MainAxisSize.min, children: [
-            Row(children: [Text('Value: ')]),
-            SizedBox(
-              width: 200,
-              child: TextField(
-                controller: valueController,
-                onChanged: (c) => widget.entity.copyWith(value: c),
+    final x = widget.state;
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: x.content[x.activeKey]!.length,
+        itemBuilder: (context, index) {
+          final entity = x.content[x.activeKey]![index];
+          return Column(
+            children: [
+              EditText(
+                  textField: true,
+                  text: x.content[x.activeKey]?[index].value ?? '',
+                  desc: 'Value',
+                  onChange: (value) => setState(() {
+                        x.content[x.activeKey]![index] =
+                            entity.copyWith(value: value);
+                      })),
+              SizedBox(height: 10),
+              EditText(
+                textField: true,
+                text: x.content[x.activeKey]?[index].description ?? '',
+                desc: 'Description',
+                onChange: (value) => setState(
+                  () {
+                    x.content[x.activeKey]![index] =
+                        entity.copyWith(description: value);
+                  },
+                ),
               ),
-            ),
-            Row(children: [Text('Description: ')]),
-            SizedBox(
-              width: 200,
-              child: TextField(
-                controller: descriptionController,
-                onChanged: (c) => widget.entity.copyWith(description: c),
+              SizedBox(height: 10),
+              EditText(
+                textField: false,
+                text: jsonEncode(x.content[x.activeKey]?[index].placeholders),
+                desc: 'Placeholders',
+                onChange: (value) {
+                  x.content[x.activeKey]![index] =
+                      entity.copyWith(placeholders: jsonDecode(value));
+                },
               ),
+              SizedBox(height: 10),
+            ],
+          );
+        });
+  }
+}
+
+String jsonEncode(Map<String, dynamic>? map) {
+  if (map == null) {
+    return '{}';
+  }
+  return json.encode(map);
+}
+
+class EditText extends StatefulWidget {
+  const EditText(
+      {super.key,
+      required this.text,
+      required this.desc,
+      required this.textField,
+      required this.onChange});
+
+  final String text;
+  final String desc;
+  final bool textField;
+  final Function(String) onChange;
+
+  @override
+  State<EditText> createState() => _EditTextState();
+}
+
+class _EditTextState extends State<EditText> {
+  late FocusNode _focusNode;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState');
+    _focusNode = FocusNode();
+    controller = TextEditingController(text: widget.text);
+
+    // Dodaj listener do focusNode
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        print('Pole ${widget.desc} uzyskało fokus');
+      } else {
+        print('Pole ${widget.desc} straciło fokus');
+        // Wywołanie onChange przy utracie fokusu
+        widget.onChange(controller.text);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(EditText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Aktualizuj kontroler, jeśli zmienił się tekst
+    if (oldWidget.text != widget.text) {
+      print('Aktualizacja kontrolera: ${widget.text}');
+      controller.text = widget.text;
+    }
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    _focusNode.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.textField)
+          TextField(
+            controller: controller,
+            focusNode: _focusNode,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: widget.desc,
             ),
-            Row(children: [Text('Placeholder: ')]),
-            SizedBox(
-              width: 200,
-              child: TextField(
-                controller: placeholdersController,
-                onChanged: (c) =>
-                    widget.entity.copyWith(placeholders: json.decode(c)),
-              ),
+            onTapOutside: (_) => widget.onChange(controller.text),
+            onEditingComplete: () => widget.onChange(controller.text),
+          ),
+        if (!widget.textField)
+          TextFormField(
+            controller: controller,
+            focusNode: _focusNode,
+            maxLines: 6,
+            keyboardType: TextInputType.multiline,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: widget.desc,
             ),
-          ]),
-        ],
-      ),
+            onTapOutside: (_) => widget.onChange(controller.text),
+            onEditingComplete: () => widget.onChange(controller.text),
+          ),
+      ],
     );
   }
 }

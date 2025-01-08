@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter_localization_app/features/file_managment/domain/entities/localization.dart';
+import 'package:uuid/uuid.dart';
 
 class LocalizationModel extends LocalizationEntity {
-  const LocalizationModel({
+  LocalizationModel({
+    required super.uuid,
     required super.keyValue,
     required super.value,
     required super.description,
@@ -19,7 +20,6 @@ class LocalizationModel extends LocalizationEntity {
   static List<LocalizationEntity> parseLocalizationEntities(String jsonString) {
     // Dekodowanie JSON do mapy
     final Map<String, dynamic> jsonMap = json.decode(jsonString);
-
     final List<LocalizationEntity> entities = [];
 
     // Iteracja po kluczach JSON
@@ -38,6 +38,7 @@ class LocalizationModel extends LocalizationEntity {
         // Dodaj do listy obiekt `LocalizationEntity`
         entities.add(
           LocalizationEntity(
+            uuid: Uuid().v4(),
             keyValue: key,
             value: value as String,
             description: description,
