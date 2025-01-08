@@ -1,4 +1,5 @@
 import 'package:flutter_localization_app/core/type/typedef.dart';
+import 'package:flutter_localization_app/features/file_managment/domain/entities/localization.dart';
 import 'package:flutter_localization_app/features/localization_managment/domain/repositories/localization_repository.dart';
 import 'package:flutter_localization_app/features/localization_managment/domain/usecases/get_map_localization.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,9 +14,19 @@ void main() async {
     late LocalizationRepository repository;
     late GetMapLocalization getMapLocalization;
 
-    final expectResult = RightApp<Map<String, Map<String, dynamic>>>({
-      'any1': {'any': 'any'},
-      'any2': {'any': 'any'}
+    final expectResult = RightApp<Map<String, List<LocalizationEntity>>>({
+      'pl': [
+        LocalizationEntity(
+            keyValue: '1',
+            value: 'value',
+            description: 'description',
+            placeholders: {}),
+        LocalizationEntity(
+            keyValue: '2',
+            value: 'value2',
+            description: 'description2',
+            placeholders: {})
+      ]
     });
 
     setUp(() {
@@ -44,7 +55,7 @@ void main() async {
     test('should return an empty list when repository returns an empty list',
         () async {
       //Oczekiwane
-      final expectResult = RightApp<Map<String, Map<String, dynamic>>>({});
+      final expectResult = RightApp<Map<String, List<LocalizationEntity>>>({});
       //arrange
       when(repository.getMapLocalization())
           .thenAnswer((_) async => expectResult);

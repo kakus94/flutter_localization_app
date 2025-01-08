@@ -171,7 +171,7 @@ class MockLocalizationRepository extends _i1.Mock
           ) as _i4.Future<_i2.Either<_i5.Failure, Map<String, dynamic>>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, Map<String, Map<String, dynamic>>>>
+  _i4.Future<_i2.Either<_i5.Failure, Map<String, List<_i8.LocalizationEntity>>>>
       getMapLocalization() => (super.noSuchMethod(
             Invocation.method(
               #getMapLocalization,
@@ -179,8 +179,9 @@ class MockLocalizationRepository extends _i1.Mock
             ),
             returnValue: _i4.Future<
                     _i2.Either<_i5.Failure,
-                        Map<String, Map<String, dynamic>>>>.value(
-                _FakeEither_0<_i5.Failure, Map<String, Map<String, dynamic>>>(
+                        Map<String, List<_i8.LocalizationEntity>>>>.value(
+                _FakeEither_0<_i5.Failure,
+                    Map<String, List<_i8.LocalizationEntity>>>(
               this,
               Invocation.method(
                 #getMapLocalization,
@@ -188,7 +189,8 @@ class MockLocalizationRepository extends _i1.Mock
               ),
             )),
           ) as _i4.Future<
-              _i2.Either<_i5.Failure, Map<String, Map<String, dynamic>>>>);
+              _i2
+              .Either<_i5.Failure, Map<String, List<_i8.LocalizationEntity>>>>);
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, void>> saveEntity({

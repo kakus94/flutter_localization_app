@@ -50,4 +50,19 @@ class LocalizationManagmentCubit extends Cubit<LocalizationManagmentState> {
     }
     return result;
   }
+
+  updateValue(String c, int index) {
+    final content = state.content;
+    final model = content[state.activeKey]![index];
+    LocalizationEntity localizationEntity = LocalizationEntity(
+      keyValue: model.keyValue,
+      value: c,
+      description: model.description,
+      placeholders: model.placeholders,
+    );
+    content[state.activeKey]![index] = localizationEntity;
+    emit(state.copyWith(content: content));
+  }
+
+  void save(List<LocalizationEntity> models, String activeKey) {}
 }

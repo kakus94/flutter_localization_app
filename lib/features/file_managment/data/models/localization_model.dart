@@ -7,7 +7,6 @@ class LocalizationModel extends LocalizationEntity {
     required super.keyValue,
     required super.value,
     required super.description,
-    required super.type,
     required super.placeholders,
   });
 
@@ -33,7 +32,6 @@ class LocalizationModel extends LocalizationEntity {
             jsonMap[descriptionKey] as Map<String, dynamic>?;
 
         final description = descriptionObject?['description'] ?? '';
-        final type = descriptionObject?['type'] ?? '';
         final Map<String, dynamic> placeholders =
             descriptionObject?['placeholders'] ?? {};
 
@@ -43,7 +41,6 @@ class LocalizationModel extends LocalizationEntity {
             keyValue: key,
             value: value as String,
             description: description,
-            type: type,
             placeholders: placeholders,
           ),
         );
